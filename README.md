@@ -1,6 +1,3 @@
-# whisper-telugu-asr
-Telugu speech recognition: fine-tuned Whisper-small, evaluated with WER/CER on FLEURS.
-
 # Fine-tuning Whisper for Telugu Speech Recognition
 
 Fine-tunes `openai/whisper-small` on Telugu speech from Google FLEURS and measures
@@ -21,8 +18,10 @@ Word Error Rate (WER) and Character Error Rate (CER) before and after fine-tunin
 
 ![WER and CER before vs after fine-tuning](wer_comparison.png)
 
-Zero-shot error rates above 100% mean the model inserted many extra or wrong words
-(for example repeated or hallucinated text) on top of its mistakes. After fine-tuning,
+Zero-shot error rates above 100% mean the model produced more wrong or extra text than
+the reference contained. In the sample outputs, zero-shot Whisper-small often transcribed
+Telugu audio in the wrong script (Devanagari, Kannada, Khmer) or got stuck repeating the
+same characters, so it was failing at language identification as well as recognition. After fine-tuning,
 WER dropped by about 69.6 points and CER by about 83.1 points on the same test subset.
 Full numbers are in `results.json`.
 
@@ -35,4 +34,6 @@ Full numbers are in `results.json`.
 ## Notes and limitations
 - Small training subset and short schedule, so this is a proof of concept, not a state-of-the-art system.
 - Evaluated on a 200-utterance subset of the FLEURS test split.
+- Generation was capped at 225 new tokens, which truncates some longer Telugu utterances, so reported WER is likely an overestimate.
+- A few training examples whose transcripts exceeded the decoder's 448-token limit were filtered out.
 - Possible extensions: more data (Common Voice, IndicVoices), Whisper-medium or LoRA, text normalization for Telugu, comparison with wav2vec2/IndicWav2Vec, a Gradio demo.
