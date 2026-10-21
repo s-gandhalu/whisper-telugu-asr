@@ -1,0 +1,15 @@
+{
+  "model": "openai/whisper-small",
+  "dataset": "google/fleurs te_in",
+  "n_train": 1500,
+  "n_test": 200,
+  "max_steps": 600,
+  "baseline": {
+    "WER": 127.43,
+    "CER": 109.15
+  },
+  "finetuned": {
+    "WER": 57.85,
+    "CER": 26.02
+  }
+}
